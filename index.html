@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Đăng nhập bằng Firebase</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    background-image: url(https://i.pinimg.com/originals/1a/ee/5c/1aee5c344846f449350feae457ea350e.jpg);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgb(80, 79, 79);
+    text-align: center;
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  form {
+    margin-top: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #777;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  button[type="submit"] {
+    width: 90%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  #message {
+    margin-top: 10px;
+    color: #ff0000;
+    font-weight: bold;
+  }
+  .dangki{
+    text-decoration: none; 
+    color: #010101;
+  }
+  a.link {
+  text-decoration: none; 
+  color: #dd0000; 
+}  
+</style>
+<body>
+  <div class="container">
+    <h1>Đăng nhập</h1>
+    <form id="loginForm">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="password">Mật khẩu:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Đăng nhập</button>
+      <h5>Nếu chưa có tài khoản -></h5>
+      <h3 id="dangki"><a class="link" href="dangki.html">Đăng Kí</a></h3>
+    </form>
+    <div id="message"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+  
+  <!-- Firebase cấu hình -->
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyAUkLc_LVgtyI7_OTfXRT1UEGmOwvb0r3E",
+      authDomain: "doan-9e28f.firebaseapp.com",
+      databaseURL: "https://doan-9e28f-default-rtdb.firebaseio.com",
+      projectId: "doan-9e28f",
+      storageBucket: "doan-9e28f.appspot.com",
+      messagingSenderId: "122021622842",
+      appId: "1:122021622842:web:0f899723976260510cb103",
+      measurementId: "G-DHSK4E551B"
+    };
+    // Khởi tạo Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Xử lý sự kiện đăng nhập
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(function(userCredential) {
+      var user = userCredential.user;
+      document.getElementById('message').innerHTML = "Đăng nhập thành công!";
+      
+      // Chuyển hướng sang trang index.html
+      window.location.href = "doan.html";
+    })
+    .catch(function(error) {
+      // ...
+    });;
+    });
+  </script>
+</body>
+</html>

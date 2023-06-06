@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hiển thị dữ liệu từ Firebase</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      background-image: url(https://i.pinimg.com/originals/1a/ee/5c/1aee5c344846f449350feae457ea350e.jpg);
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    .data-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+
+    .data-item {
+      width: 200px;
+      height: 250px;
+      padding: 20px;
+      margin: 10px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 2px 5px rgb(58, 55, 55);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .data-label {
+      font-weight: bold;
+    }
+
+    .data-value {
+      margin-top: 10px;
+      font-size: 24px;
+    }
+    .heartbeat-icon {
+      font-size: 60px;
+      color: rgb(203, 70, 70);
+      margin-top: 20px;
+    }
+    .fa-lungs{
+      font-size: 60px;
+      color: black;
+      margin-top: 20px;
+    }
+    .fa-clock{
+      font-size: 60px;
+      margin-top: 20px;
+    }
+    .fa-tint{
+      font-size: 60px;
+      color: red;
+      margin-top: 20px;
+    }
+    .anh{
+      margin-top: 20px;
+    }
+        /* Thiết lập phần top-menu */
+.top-menu {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+.top-menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.top-menu ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.top-menu ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+.centered-table {
+    margin: 0 auto; /* căn giữa bảng */
+    border-collapse: collapse; /* gộp viền các ô */
+    width: 100%; /* chiều rộng bảng */
+  }
+
+  .centered-table th, .centered-table td {
+    border: 1px solid #ddd; /* viền ô */
+    padding: 8px; /* khoảng cách giữa nội dung và viền */
+    text-align: center; /* căn giữa nội dung trong ô */
+    background-color: white;
+  }
+
+  .centered-table th {
+    background-color: #28d914; /* màu nền tiêu đề */
+  }
+  .canhBao {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.canhBao.normal {
+  background-color: green;
+}
+
+.canhBao.warning {
+  background-color: yellow;
+}
+
+.canhBao.danger {
+  background-color: red;
+}
+.heart-rate-alert{
+  font-size: 18px;
+  font-weight: bold;
+}
+.canhBao2 {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.canhBao2.normal {
+  background-color: green;
+}
+
+.canhBao2.warning {
+  background-color: yellow;
+}
+
+.canhBao2.danger {
+  background-color: red;
+}
+.huyet-ap-alert{
+  font-size: 18px;
+  font-weight: bold;
+}
+.canhBao3 {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.canhBao3.normal {
+  background-color: green;
+}
+
+.canhBao3.warning {
+  background-color: yellow;
+}
+
+.canhBao3.danger {
+  background-color: red;
+}
+.spo2-alert{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.help{
+      width: 300px;
+      height: 5px;
+      padding: 20px;
+      margin: 10px;
+      background-color: #4e83ed;
+      border-radius: 10px;
+      box-shadow: 0px 2px 5px rgb(58, 55, 55);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+}
+  </style>
+</head>
+<body>
+  <div class="top-menu">
+    <ul>
+      <li><a href="#">Trang chủ</a></li>
+      <li><a href="index.html">Đăng nhập</a></li>
+      <li><a href="#">Sơ cứu</a></li>
+      <li><a href="#">Liên hệ</a></li>
+    </ul>
+  </div>
+
+  <h1>DỮ LIỆU TỪ VÒNG TAY</h1>
+
+  <div class="data-container">
+    <div class="data-item">
+      <div class="canhBao3" id="canhBao3"></div> <br>
+      <div class="spo2-alert" id="spo2-alert"></div>
+      <i class="fas fa-tint"></i>
+      <h3>SPO2</h3>
+      <div id="spo2" style="font-size: 30px; text-decoration: dashed;" ></div>
+    </div>
+
+    <div class="data-item">
+      <div class="canhBao" id="canhBao"></div> <br>
+      <div class="heart-rate-alert" id="heart-rate-alert"></div>
+      <i class="fas fa-lungs"></i>
+      <h3 >NHỊP TIM</h3>
+      <div id="heart-beat"  style="font-size: 30px; text-decoration: dashed;"></div>
+    </div>
+
+    <div class="data-item" >
+      <div class="canhBao2" id="canhBao2"></div> <br>
+      <div class="huyet-ap-alert" id="huyet-ap-alert"></div>
+      <i class="fas fa-heartbeat heartbeat-icon" ></i>
+      <h3>HUYẾT ÁP</h3>
+      <div id="huyet-ap" style="font-size: 30px; text-decoration: dashed;"></div>
+    </div>
+
+    <div class="data-item" >
+      <i class="fas fa-clock"></i>
+      <h3>THỜI GIAN ĐO</h3>
+      <div id="gio-phut-giay" style="font-size: 30px; text-decoration: dashed;"></div>
+    </div>
+
+  </div>
+  <center>
+    
+    <div class="ho-tro">
+      <div class="help" id="help"><a href="https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/suc-khoe-tong-quat/xu-tri-con-tang-huyet-ap-cap-cuu/" style="text-decoration: none; color: #333;">HỖ TRỢ KHI TĂNG HUYẾT ÁP</a></div>
+      <div class="help" id="help"><a href="https://www.vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/cach-xu-tri-khi-bi-tut-huyet-ap/" style="text-decoration: none; color: #333;">HỖ TRỢ KHI TỤT HUYẾT ÁP</a></div>
+      <div class="help" id="help"><a href="https://vinmec.com/vi/tin-tuc/thong-tin-suc-khoe/suc-khoe-tong-quat/co-may-phuong-phap-ho-hap-nhan-tao/" style="text-decoration: none; color: #333;">HỖ TRỢ HÔ HẤP NHÂN TẠO</a></div>
+    </div>
+  </center>
+  <div>
+    <h1>Bảng theo dõi</h1>
+    <table id="data-table" class="centered-table">
+      <tr>
+        <th>SpO2 (%)</th>
+        <th>Nhịp tim (BPM)</th>
+        <th>Huyết áp (mmHg)</th>
+        <th>Thời gian đo (time)</th>
+      </tr>
+    </table>
+  </div>
+  <!-- Đầu tiên, thêm thư viện Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
+
+  <script>
+    // Định cấu hình của Firebase
+    var firebaseConfig = {
+      apiKey: "AIzaSyAUkLc_LVgtyI7_OTfXRT1UEGmOwvb0r3E",
+      authDomain: "doan-9e28f.firebaseapp.com",
+      databaseURL: "https://doan-9e28f-default-rtdb.firebaseio.com",
+      projectId: "doan-9e28f",
+      storageBucket: "doan-9e28f.appspot.com",
+      messagingSenderId: "122021622842",
+      appId: "1:122021622842:web:0f899723976260510cb103",
+      measurementId: "G-DHSK4E551B"
+    };
+
+    // Khởi tạo Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Truy cập vào nút dữ liệu trong Firebase
+    var sensorRef = firebase.database().ref('sensor');
+
+    // Lắng nghe sự thay đổi dữ liệu
+    sensorRef.on('value', function(snapshot) {
+      // Lấy dữ liệu từ snapshot
+      var sensorData = snapshot.val();
+
+      // Kiểm tra xem dữ liệu sensor có tồn tại không
+      if (sensorData) {
+        // Lấy dữ liệu SpO2, HeartBeat, HuyetAp, và GioPhutGiay
+        var spo2 = sensorData.SpO2;
+        var heartBeat = sensorData.HeartBeat;
+        var tamThu = sensorData.TamThu;
+        var tamTruong = sensorData.TamTruong;
+        var gioPhutGiay = sensorData.GioPhutGiay;
+
+        // Hiển thị dữ liệu lên trang web
+        document.getElementById('spo2').textContent = spo2 + "%";
+        document.getElementById('heart-beat').textContent =  heartBeat + " BPM";
+        document.getElementById('huyet-ap').textContent =  tamThu + "/" + tamTruong + " mmHg";
+        document.getElementById('gio-phut-giay').textContent =  gioPhutGiay;
+
+        // Tạo một dòng mới trong bảng
+        var newRow = document.createElement('tr');
+
+        // Tạo các ô dữ liệu cho dòng mới
+        var spo2Cell = document.createElement('td');
+        spo2Cell.textContent = spo2 + "%";
+        newRow.appendChild(spo2Cell);
+
+        var heartBeatCell = document.createElement('td');
+        heartBeatCell.textContent = heartBeat + " BPM";
+        newRow.appendChild(heartBeatCell);
+
+        var huyetApCell = document.createElement('td');
+        huyetApCell.textContent = tamThu + "/" + tamTruong + " mmHg";
+        newRow.appendChild(huyetApCell);
+
+        var gioPhutGiayCell = document.createElement('td');
+        gioPhutGiayCell.textContent = gioPhutGiay;
+        newRow.appendChild(gioPhutGiayCell);
+
+        // Thêm dòng mới vào bảng
+        var table = document.getElementById('data-table');
+        table.appendChild(newRow);
+
+      } 
+    // CẢNH BÁO NHỊP TIM
+    // Lấy tham chiếu đến phần tử cảnh báo nhịp tim
+    var heartRateAlert = document.getElementById('heart-rate-alert');
+    var canhBao = document.getElementById('canhBao');
+    // Xóa các lớp CSS hiện có
+    canhBao.classList.remove("normal", "warning", "danger");
+
+    // Kiểm tra giá trị nhịp tim và áp dụng lớp CSS tương ứng
+    if (heartBeat >= 60 && heartBeat <= 90) {
+      canhBao.classList.add("normal");
+    } else if (heartBeat >= 50 && heartBeat <= 59) {
+      canhBao.classList.add("warning");
+    } else if ((heartBeat >= 91 ) || (heartBeat < 50 )) {
+      canhBao.classList.add("danger");
+    } else {
+      // Nếu không có dữ liệu, không áp dụng lớp CSS
+    }
+
+    // Cập nhật nội dung của phần tử cảnh báo nhịp tim
+    canhBao.textContent = "";
+
+    // Kiểm tra giá trị nhịp tim và hiển thị cảnh báo tương ứng
+    if (heartBeat >= 60 && heartBeat <= 90) {
+      heartRateAlert.textContent = "Nhịp tim - Tốt";
+      heartRateAlert.classList.remove("warning", "danger");
+    } else if (heartBeat >= 50 && heartBeat <= 59) {
+      heartRateAlert.textContent = "Nhịp tim - Thấp";
+    } else if ((heartBeat >= 91 ) || (heartBeat < 50 )) {
+      heartRateAlert.textContent = "Nguy hiểm";
+    } 
+    //CẢNH BÁO HUYẾT ÁP
+    var huyetApAlert = document.getElementById('huyet-ap-alert');
+    var canhBao2 = document.getElementById('canhBao2');
+    // Xóa các lớp CSS hiện có
+    canhBao2.classList.remove("normal", "warning", "danger");
+
+    // Kiểm tra giá trị nhịp tim và áp dụng lớp CSS tương ứng
+    if (tamThu >= 120 && tamThu <= 140) {
+      canhBao2.classList.add("normal");
+    } else if ((tamThu >= 100 && tamThu < 120)||(tamThu > 140 && tamThu < 160)) {
+      canhBao2.classList.add("warning");
+    } else if ((tamThu < 90) || (tamThu > 150)) {
+      canhBao2.classList.add("danger");
+    } else {
+      // Nếu không có dữ liệu, không áp dụng lớp CSS
+    }
+      // Cập nhật nội dung của phần tử cảnh báo nhịp tim
+      canhBao2.textContent = "";
+      // Kiểm tra giá trị nhịp tim và hiển thị cảnh báo tương ứng
+    if (tamThu >= 120 && tamThu <= 140){
+      huyetApAlert.textContent = "Huyết áp - Tốt";
+    } else if ((tamThu >= 100 && tamThu < 120)||(tamThu > 140 && tamThu < 160)) {
+      huyetApAlert.textContent = "Cảnh báo";
+    } else if ((tamThu < 90) || (tamThu > 150))  {
+      huyetApAlert.textContent = "Nguy hiểm";
+    } 
+    // CẢNH BÁO SPO2
+    // Lấy tham chiếu đến phần tử cảnh báo nhịp tim
+    var spo2Alert = document.getElementById('spo2-alert');
+    var canhBao3 = document.getElementById('canhBao3');
+    // Xóa các lớp CSS hiện có
+    canhBao3.classList.remove("normal", "warning", "danger");
+
+    // Kiểm tra giá trị nhịp tim và áp dụng lớp CSS tương ứng
+    if (spo2 >= 90 && spo2 <= 100) {
+      canhBao3.classList.add("normal");
+    } else if (spo2 >= 85 && spo2 <= 90) {
+      canhBao3.classList.add("warning");
+    } else if (spo2 < 85) {
+      canhBao3.classList.add("danger");
+    } else {
+      // Nếu không có dữ liệu, không áp dụng lớp CSS
+    }
+    // Cập nhật nội dung của phần tử cảnh báo nhịp tim
+    canhBao3.textContent = "";
+    // Kiểm tra giá trị nhịp tim và hiển thị cảnh báo tương ứng
+    if (spo2 >= 90 && spo2 <= 100) {
+      spo2Alert.textContent = "SpO2 - Tốt";
+      spo2Alert.classList.remove("warning", "danger");
+    } else if (spo2 >= 85 && spo2 <= 90) {
+      spo2Alert.textContent = "SpO2 - Thấp";
+    } else if (spo2 < 85) {
+      spo2Alert.textContent = "Nguy hiểm";
+    } 
+    
+    });
+</script>
+
+</body>
+</html>
