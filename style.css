@@ -1,0 +1,92 @@
+* {
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+  }
+  
+  body {
+	margin: 0;
+	padding: 0;
+	background-image: url(https://ehealth.gov.vn/images/fckUpload/image/thang12_2018/Policy.jpg);
+  }
+  
+  nav {
+	background-color: #333;
+	color: #fff;
+  }
+  
+  nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: flex-start;
+  }
+  
+  nav li {
+	padding: 10px;
+  }
+  
+  nav a {
+	color: #fff;
+	text-decoration: none;
+	border-bottom: 2px solid transparent;
+	transition: border-bottom-color 0.2s ease-in-out;
+  }
+  
+  nav a:hover {
+	border-bottom-color: #fff;
+  }
+  
+  .container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+  }
+  
+  .form {
+	background-color: #a8bee4;
+	padding: 50px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+  }
+  
+  .form h2 {
+	margin-bottom: 20px;
+  }
+  
+  .form-control {
+	text-align: left;
+	margin-bottom: 20px;
+  }
+  
+  .form-control input {
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	outline: none;
+  }
+  
+  .btn {
+	background-color: #4CAF50;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+  }
+  
+  .btn:hover {
+	background-color: #3e8e41;
+  }
+  
+  @media screen and (max-width: 768px) {
+	.form {
+	  width: 90%;
+	}
+  }
+  
+   
+  
